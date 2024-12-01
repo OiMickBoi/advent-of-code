@@ -6,7 +6,6 @@ import java.util.*;
 class Main {
     static ArrayList<Integer> list1 = new ArrayList<>();
     static ArrayList<Integer> list2 = new ArrayList<>();
-   
 
     public static void init() {
         try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
@@ -27,12 +26,10 @@ class Main {
     public static int cal() {
         Collections.sort(list1);
         Collections.sort(list2);
-
-        HashMap<Integer, Integer> score = new HashMap<>();
+        int sum = 0;
 
         for (int i = 0; i < list1.size(); i++) {
-            int key = list1.get(i);
-            score.put(key, score.getOrDefault(key, 0) + 1);
+            sum += Math.abs(list1.get(i) - list2.get(i));
         }
 
         return sum;
