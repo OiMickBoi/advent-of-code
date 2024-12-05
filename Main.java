@@ -1,3 +1,4 @@
+import java.awt.JobAttributes.MultipleDocumentHandlingType;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,8 +9,9 @@ import java.util.regex.Pattern;
 
 
 class Main {
-    static ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>(); 
     static int sum = 0;
+
+    public static final Pattern MUL_PATTERN = Pattern.compile("mul\\(([0-9]+),([0-9]+)\\)");
   
     public static void init() {
        try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
@@ -30,33 +32,16 @@ class Main {
     }
 
     public static void match(String string) {
-        Pattern pattern = Pattern.compile("mul\\([0-9]+,[0-9]+\\)");
-        Matcher matcher = pattern.matcher(string);
+        Matcher matcher = MUL_PATTERN.matcher(string);
 
         while (matcher.find()) {
-            eval(matcher.group());
+            int num1 = Integer.parseInt(matcher.group(1));
+            int num2 = Integer.parseInt(matcher.group(2));
+
+            sum += num1 * num2;
         }
         
     }
-
-    public static void eval(String string) {
-        Pattern pattern = Pattern.compile("[0-9]+");
-        Matcher matcher = pattern.matcher(string);
-        ArrayList<Integer> products = new ArrayList<>();
-
-
-        while (matcher.find()) {
-            products.add(Integer.parseInt(matcher.group()));
-        }
-
-        int total = 1;
-        for (Integer product : products) {
-            total *= product;
-        }
-
-        sum+=total;
-    }
-
 
     public static void main(String[] args) {
         init();
