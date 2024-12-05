@@ -7,7 +7,8 @@ class Main {
     static ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>(); 
   
     public static void init() {
-        try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+        // try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("test.txt"))) {
             String stringLine;
             while ((stringLine = br.readLine()) != null) {
                 ArrayList<Integer> line = new ArrayList<>();
@@ -23,60 +24,47 @@ class Main {
         }
     }
 
-    // public static int eval() {
-    //     int safeReports = 0;
-    //     for (ArrayList<Integer> line : list) {
-    //         int t = 0;
-    //         int len = line.size();
+    public static boolean isSafe(ArrayList<Integer> line, int len) {
+        boolean isIncreasing = true;
+        if (line.get(0) - line.get(1) > 0) isIncreasing = false;
 
-    //         isSafe(line);
-    //         if (t == len-1) safeReports++;
-    //     }
-    //     return safeReports;
-    // }
-
-    // public static boolean isSafe(ArrayList<Integer> line) {
-    //     for (int i = 0; i < len-1; i++) {
-    //         int x = line.get(i);
-    //         int y = line.get(i+1);
-    //         if (isSafe(x, y)) t++;
-    //     }
-    // }
-
-    
-    public static boolean isIncreasing(int x, int y) {
-        System.out.println(y + " - " + x);
-            if (y-x > 0 && y-x < 4) {
-                return true;
+        int t = 1;
+        int numBadLevels = 0;
+        for (int i = 0; i < len-1; i++) {
+            if (isSequence(line.get(i), line.get(i+1), isIncreasing)){
+                t++; 
+            } 
+            else {
+                numBadLevels++;
+                if (numBadLevels > 1) {
+                    return false;
+                }
             }
-        return false;
+        }
+        return t==len;
     }
-    
-    public static boolean isDecreasing(int x, int y) {
-        System.out.println(x + " - " + y);
-            if (x-y > 0 && x-y < 4) {
-                return true;
-            }
-        return false;
+
+    public static boolean isSequence(int x, int y, boolean isIncreasing) {
+        int diff = isIncreasing ? y-x : x-y;
+        return diff > 0 && diff < 4;
+    }
+
+    public static int eval() {
+        int safeReports = 0;
+        for (ArrayList<Integer> line : list) {
+            if (isSafe(line, line.size())) safeReports++;
+        }
+        return safeReports;
     }
 
     public static void main(String[] args) {
         init();
 
-        System.out.println(isIncreasing(1,2));
-        System.out.println(isIncreasing(1,3));
-        System.out.println(isIncreasing(1,4));
-        System.out.println(isIncreasing(1,5)); // too much
-        System.out.println(isIncreasing(1,0)); // decreasing
+        // ArrayList<Integer> list = new ArrayList<>(Arrays.asList(7, 6, 4, 2, 1));
+        // System.out.println(isSafe(list, list.size()));
 
-        System.out.println(isDecreasing(0,1));
-        System.out.println(isDecreasing(1,0));
-        System.out.println(isDecreasing(2,1));
-        System.out.println(isDecreasing(3,1));
-        System.out.println(isDecreasing(4,1));
-        System.out.println(isDecreasing(5,1)); // toomuch
         
-        // System.out.println(eval());
+        System.out.println(eval());
     }
 }
 
