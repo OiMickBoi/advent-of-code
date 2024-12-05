@@ -4,41 +4,42 @@ import java.io.IOException;
 import java.util.*;
 
 
-class TestFramework {
-    private int passedTests = 0;
-    private int failedTests = 0;
+// class TestFramework {
+//     private int passedTests = 0;
+//     private int failedTests = 0;
 
-    public TestFramework() {
-        this.passedTests = 0;
-        this.failedTests = 0;
-    }
+//     public TestFramework() {
+//         this.passedTests = 0;
+//         this.failedTests = 0;
+//     }
     
-    public void assertEquals(Object expected, Object actual, String testName) {
-        boolean passed = (expected == null && actual == null) ||
-                        (expected != null && expected.equals(actual));
+//     public void assertEquals(Object expected, Object actual, String testName) {
+//         boolean passed = (expected == null && actual == null) ||
+//                         (expected != null && expected.equals(actual));
         
-        if (passed) {
-            System.out.println("✓ PASSED: " + testName);
-            passedTests++;
-        } else {
-            System.out.println("✗ FAILED: " + testName);
-            System.out.println("  Expected: " + expected);
-            System.out.println("  Actual:   " + actual);
-            failedTests++;
-        }
-    }
+//         if (passed) {
+//             System.out.println("✓ PASSED: " + testName);
+//             passedTests++;
+//         } else {
+//             System.out.println("✗ FAILED: " + testName);
+//             System.out.println("  Expected: " + expected);
+//             System.out.println("  Actual:   " + actual);
+//             failedTests++;
+//         }
+//     }
     
-    public void assertTrue(boolean condition, String testName) {
-        assertEquals(true, condition, testName);
-    }
+//     public void assertTrue(boolean condition, String testName) {
+//         assertEquals(true, condition, testName);
+//     }
     
-    public void printTestSummary() {
-        System.out.println("\nTest Summary:");
-        System.out.println("Total tests: " + (passedTests + failedTests));
-        System.out.println("Passed: " + passedTests);
-        System.out.println("Failed: " + failedTests);
-    }
-}
+//     public void printTestSummary() {
+//         System.out.println("\nTest Summary:");
+//         System.out.println("Total tests: " + (passedTests + failedTests));
+//         System.out.println("Passed: " + passedTests);
+//         System.out.println("Failed: " + failedTests);
+//     }
+// }
+
 
 class Main {
     static ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>(); 
@@ -100,8 +101,30 @@ class Main {
         return safeReports;
     }
 
-    // public static void main(String[] args) {
-    //     init();
+    public static void main(String[] args) {
+        init();
+
+        // ArrayList<Integer> list = new ArrayList<>(Arrays.asList(7, 6, 4, 2, 1));
+        // System.out.println(isSafe(list, list.size()));
+
+        
+        System.out.println(eval());
+    }
+}
+
+ 
+
+
+    public static int eval() {
+        int safeReports = 0;
+        for (ArrayList<Integer> line : list) {
+            if (isSafe(line, line.size())) safeReports++;
+        }
+        return safeReports;
+    }
+
+    public static void main(String[] args) {
+        init();
 
     //     TestFramework ts = new TestFramework();
 
@@ -159,51 +182,51 @@ class Main {
 
     //     ts.printTestSummary();
         
-    //     System.out.println(eval());
-    // }
+        System.out.println(eval());
+    }
 
 
     
-private static TestFramework ts = new TestFramework();
+// private static TestFramework ts = new TestFramework();
     
-    public static void main(String[] args) {
-        // Test Rule 1: All increasing OR all decreasing
-        testCase(Arrays.asList(1, 3, 5, 7, 9), "Simple increasing sequence", true);
-        testCase(Arrays.asList(9, 7, 5, 3, 1), "Simple decreasing sequence", true);
-        testCase(Arrays.asList(1, 3, 2, 4, 5), "Mixed sequence with removable value", true);
-        testCase(Arrays.asList(5, 3, 4, 2, 1), "Mixed sequence that can't be fixed", false);
+//     public static void main(String[] args) {
+//         // Test Rule 1: All increasing OR all decreasing
+//         testCase(Arrays.asList(1, 3, 5, 7, 9), "Simple increasing sequence", true);
+//         testCase(Arrays.asList(9, 7, 5, 3, 1), "Simple decreasing sequence", true);
+//         testCase(Arrays.asList(1, 3, 2, 4, 5), "Mixed sequence with removable value", true);
+//         testCase(Arrays.asList(5, 3, 4, 2, 1), "Mixed sequence that can't be fixed", false);
         
-        // Test Rule 2: Adjacent levels must differ by 1-3
-        testCase(Arrays.asList(1, 2, 3, 4, 5), "Increasing with diff=1", true);
-        testCase(Arrays.asList(1, 3, 5, 7, 9), "Increasing with diff=2", true);
-        testCase(Arrays.asList(1, 4, 7, 10), "Increasing with diff=3", true);
-        testCase(Arrays.asList(1, 5, 8, 10), "Invalid: diff>3", false);
+//         // Test Rule 2: Adjacent levels must differ by 1-3
+//         testCase(Arrays.asList(1, 2, 3, 4, 5), "Increasing with diff=1", true);
+//         testCase(Arrays.asList(1, 3, 5, 7, 9), "Increasing with diff=2", true);
+//         testCase(Arrays.asList(1, 4, 7, 10), "Increasing with diff=3", true);
+//         testCase(Arrays.asList(1, 5, 8, 10), "Invalid: diff>3", false);
         
-        // Test Rule 3: Can remove one bad level
-        testCase(Arrays.asList(1, 2, 5, 3, 4), "Safe after removing 5", true);
-        testCase(Arrays.asList(5, 4, 3, 6, 2), "Safe after removing 6", true);
-        testCase(Arrays.asList(1, 2, 6, 7, 3), "Unsafe even with removal", false);
+//         // Test Rule 3: Can remove one bad level
+//         testCase(Arrays.asList(1, 2, 5, 3, 4), "Safe after removing 5", true);
+//         testCase(Arrays.asList(5, 4, 3, 6, 2), "Safe after removing 6", true);
+//         testCase(Arrays.asList(1, 2, 6, 7, 3), "Unsafe even with removal", false);
         
-        // Examples from real data
-        testCase(Arrays.asList(48, 51, 52, 53, 52), "Real data - removable disruption", true);
-        testCase(Arrays.asList(86, 87, 88, 91, 91), "Real data - valid increasing", true);
-        testCase(Arrays.asList(94, 93, 90, 88, 85, 83), "Real data - valid decreasing", true);
-        testCase(Arrays.asList(70, 67, 70, 71, 74, 71), "Real data - unfixable sequence", false);
+//         // Examples from real data
+//         testCase(Arrays.asList(48, 51, 52, 53, 52), "Real data - removable disruption", true);
+//         testCase(Arrays.asList(86, 87, 88, 91, 91), "Real data - valid increasing", true);
+//         testCase(Arrays.asList(94, 93, 90, 88, 85, 83), "Real data - valid decreasing", true);
+//         testCase(Arrays.asList(70, 67, 70, 71, 74, 71), "Real data - unfixable sequence", false);
         
-        // Special cases
-        testCase(Arrays.asList(5, 5, 5, 5, 5), "All same numbers - invalid", false);
-        testCase(Arrays.asList(1, 4, 2, 5, 3), "Multiple violations - unfixable", false);
-        testCase(Arrays.asList(1, 3, 6, 4, 5), "Violation of both rules - fixable by removing 6", true);
+//         // Special cases
+//         testCase(Arrays.asList(5, 5, 5, 5, 5), "All same numbers - invalid", false);
+//         testCase(Arrays.asList(1, 4, 2, 5, 3), "Multiple violations - unfixable", false);
+//         testCase(Arrays.asList(1, 3, 6, 4, 5), "Violation of both rules - fixable by removing 6", true);
         
-        ts.printTestSummary();
-    }
+//         ts.printTestSummary();
+//     }
     
-    private static void testCase(List<Integer> numbers, String description, boolean expectedResult) {
-        ArrayList<Integer> test = new ArrayList<>(numbers);
-        boolean result = isSafe(test, test.size());
-        ts.assertTrue(result == expectedResult, 
-            description + " - Expected: " + expectedResult + ", Sequence: " + numbers);
-    }
-}
+//     private static void testCase(List<Integer> numbers, String description, boolean expectedResult) {
+//         ArrayList<Integer> test = new ArrayList<>(numbers);
+//         boolean result = isSafe(test, test.size());
+//         ts.assertTrue(result == expectedResult, 
+//             description + " - Expected: " + expectedResult + ", Sequence: " + numbers);
+//     }
+// }
  
-
+}
